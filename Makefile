@@ -10,5 +10,17 @@ migrateup:
 	migrate -path db/migration -database "postgresql://postgres:123321@127.0.0.1:6432/simple_bank?sslmode=disable" -verbose up
 migratedown:
 	migrate -path db/migration -database "postgresql://postgres:123321@127.0.0.1:6432/simple_bank?sslmode=disable" -verbose down
+sqlc:
+	sqlc generate
 
-.PHONY: createdb dropdb postgres get_postgres migrateup migratedown
+
+get_accounts:
+	docker exec -it postgres psql -U postgres -d simple_bank -c "SELECT * FROM accounts"
+
+
+test:
+	go test -v -cover ./...
+
+.PHONY: createdb dropdb postgres get_postgres migrateup migratedown sqlc
+.PHONY: get_accounts
+.PHONY: test
