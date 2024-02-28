@@ -16,11 +16,18 @@ sqlc:
 
 get_accounts:
 	docker exec -it postgres psql -U postgres -d simple_bank -c "SELECT * FROM accounts"
+delete_accounts:
+	docker exec -it postgres psql -U postgres -d simple_bank -c "TRUNCATE accounts RESTART IDENTITY CASCADE"
+delete_entries:
+	docker exec -it postgres psql -U postgres -d simple_bank -c "TRUNCATE entries RESTART IDENTITY CASCADE"
+delete_transfers:
+	docker exec -it postgres psql -U postgres -d simple_bank -c "TRUNCATE transfers RESTART IDENTITY CASCADE"
+
 
 
 test:
-	go test -v -cover ./...
+	go test -v -cover -short ./...
 
 .PHONY: createdb dropdb postgres get_postgres migrateup migratedown sqlc
-.PHONY: get_accounts
+.PHONY: get_accounts delete_accounts delete_entries delete_transfers
 .PHONY: test

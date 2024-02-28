@@ -14,14 +14,14 @@ const (
 	dbSource = "postgresql://postgres:123321@127.0.0.1:6432/simple_bank?sslmode=disable"
 )
 
-var testQueries *Queries
+var testStore Store
 
 // !TestMain
 func TestMain(m *testing.M) {
 	connPool, err := pgxpool.New(context.Background(), dbSource)
 	if err != nil {
-		log.Fatal("cannot connect to db:", err)
+		log.Fatal("Cannot connect to db ", err)
 	}
-	testQueries = New(connPool)
+	testStore = NewStore(connPool)
 	os.Exit(m.Run())
 }
