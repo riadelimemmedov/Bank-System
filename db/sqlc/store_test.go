@@ -32,7 +32,7 @@ func TestTransfer(t *testing.T) {
 		}()
 	}
 	// check results
-
+	existed := make(map[int]bool)
 	for i := 0; i < n; i++ {
 		err := <-errs
 		require.NoError(t, err)
@@ -75,6 +75,39 @@ func TestTransfer(t *testing.T) {
 		_, err = testStore.GetEntry(context.Background(), toEntry.ID)
 		require.NoError(t, err)
 
+		// ?check accounts
+		fromAccount := result.FromAccount
+		require.NotEmpty(t, fromAccount)
+		require.Equal(t, sender.ID, fromAccount.ID)
+
+		toAccount := result.ToAccount
+		require.NotEmpty(t, toAccount)
+		require.Equal(t, receiver.ID, toAccount.ID)
+
+		// ? check accounts balance
+		fmt.Println(">>tx ", fromAccount.Balance, toAccount.Balance)
+		diff1 := sender.Balance - fromAccount.Balance
+		diff2 := toAccount.Balance - receiver.Balance
+		require.Equal(t, diff1, diff2)
+		require.True(t, diff1 > 0)
+		require.True(t, diff1%amount == 0)
+
+		k := int(diff1 / amount)
+		require.True(t, k >= 1 && k <= n)
+		require.NotContains(t, existed, k)
+		existed[k] = true
 	}
+
+	// ?check the final updated balance
+	result_balance_sender, err := testStore.GetAccount(context.Background(), sender.ID)
+	require.NoError(t, err)
+
+	result_balance_receiver, err := testStore.GetAccount(context.Background(), receiver.ID)
+	require.NoError(t, err)
+
+	require.Equal(t, sender.Balance-int64(n)*amount, result_balance_sender.Balance)
+	require.Equal(t, receiver.Balance+int64(n)*amount, result_balance_receiver.Balance)
+
+	fmt.Println(">> before:", result_balance_sender.Balance, result_balance_receiver.Balance)
 
 }

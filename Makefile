@@ -13,7 +13,6 @@ migratedown:
 sqlc:
 	sqlc generate
 
-
 get_accounts:
 	docker exec -it postgres psql -U postgres -d simple_bank -c "SELECT * FROM accounts"
 delete_accounts:
