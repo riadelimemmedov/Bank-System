@@ -23,9 +23,8 @@ delete_transfers:
 	docker exec -it postgres psql -U postgres -d simple_bank -c "TRUNCATE transfers RESTART IDENTITY CASCADE"
 
 
-
 test:
-	go test -v -cover -short ./...
+	go test -v -cover ./...
 
 .PHONY: createdb dropdb postgres get_postgres migrateup migratedown sqlc
 .PHONY: get_accounts delete_accounts delete_entries delete_transfers
