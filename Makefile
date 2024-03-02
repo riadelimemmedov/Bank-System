@@ -25,7 +25,9 @@ delete_transfers:
 
 test:
 	go test -v -cover ./...
+server:
+	go run main.go
 
 .PHONY: createdb dropdb postgres get_postgres migrateup migratedown sqlc
 .PHONY: get_accounts delete_accounts delete_entries delete_transfers
-.PHONY: test
+.PHONY: test server
