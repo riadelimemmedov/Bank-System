@@ -13,7 +13,7 @@ migratedown:
 sqlc:
 	sqlc generate
 mock:
-	mockgen -destination db/mock/store.go simplebank/db/sqlc Store
+	mockgen -package mockdb -destination db/mock/store.go simplebank/db/sqlc Store
 
 get_accounts:
 	docker exec -it postgres psql -U postgres -d simple_bank -c "SELECT * FROM accounts"
