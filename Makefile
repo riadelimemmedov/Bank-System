@@ -12,6 +12,8 @@ migratedown:
 	migrate -path db/migration -database "postgresql://postgres:123321@127.0.0.1:6432/simple_bank?sslmode=disable" -verbose down
 sqlc:
 	sqlc generate
+mock:
+	mockgen -destination db/mock/store.go simplebank/db/sqlc Store
 
 get_accounts:
 	docker exec -it postgres psql -U postgres -d simple_bank -c "SELECT * FROM accounts"
@@ -28,6 +30,6 @@ test:
 server:
 	go run main.go
 
-.PHONY: createdb dropdb postgres get_postgres migrateup migratedown sqlc
+.PHONY: createdb dropdb postgres get_postgres migrateup migratedown sqlc mock
 .PHONY: get_accounts delete_accounts delete_entries delete_transfers
 .PHONY: test server

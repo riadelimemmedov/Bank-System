@@ -42,6 +42,7 @@ Blackbox AI Chat is in beta and Blackbox is not liable for the content generated
 go.work
 .vscode
 
-.env
+*.env
+# app.env
 
 # End of https://www.toptal.com/developers/gitignore/api/go
