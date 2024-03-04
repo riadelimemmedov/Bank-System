@@ -13,7 +13,7 @@ import (
 type CreateAccountRequest struct {
 	Name     string `json:"name" binding:"required"`
 	Owner    string `json:"owner" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency string `json:"currency" binding:"required,currency"`
 }
 
 // !createAccount
@@ -29,7 +29,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 		Name:     req.Name,
 		Owner:    req.Owner,
 		Currency: req.Currency,
-		Balance:  0,
+		Balance:  100,
 	}
 
 	account, err := server.store.CreateAccount(ctx, arg)
