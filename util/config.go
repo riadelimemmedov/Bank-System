@@ -1,13 +1,18 @@
 package util
 
-import "github.com/spf13/viper"
+import (
+	"github.com/spf13/viper"
+	"go.starlark.net/lib/time"
+)
 
-//? Config stores all configuration of the application
+// ? Config stores all configuration of the application
 // ?The values are read by viper from a config file or environment variables
 type Config struct {
-	DbDriver      string `mapstructure:"DB_DRIVER"`
-	DbSource      string `mapstructure:"DB_SOURCE"`
-	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
+	DbDriver            string        `mapstructure:"DB_DRIVER"`
+	DbSource            string        `mapstructure:"DB_SOURCE"`
+	ServerAddress       string        `mapstructure:"SERVER_ADDRESS"`
+	TokenSymmetricKey   string        `mapstructure:"TOKEN_SYMMETRIC_KEY"`
+	AccessTokenDuration time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
 }
 
 // !LoadConfig read configuration from file or environment variables
